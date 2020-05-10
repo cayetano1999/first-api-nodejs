@@ -4,6 +4,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 //Archivos RUTA 
+  var project_routes = require('./API/core/router/router-config.js');  
 
 //middleares 
 
@@ -19,23 +20,25 @@ var users = [
 
 //RUTAS
 
-app.get('/test', (req, res)=>{
-    res.status(200).send({
-      message: 'Hi! It is my first API with Node Js'
-    });
-});
+app.use('/api', project_routes);
 
-app.get('/checkuser/:name', (req, res) => {
-    res.status(200).send({
-        message: `Your name has ${req.params.name.length} Characters`
-    });
-})
+// app.get('/test', (req, res)=>{
+//     res.status(200).send({
+//       message: 'Hi! It is my first API with Node Js'
+//     });
+// });
 
-app.get('/playwithname/:name', (req, res) => {
-    res.status(200).send({
-        message: `Your name is ${req.params.name.length} Characters`
-    });
-})
+// app.get('/checkuser/:name', (req, res) => {
+//     res.status(200).send({
+//         message: `Your name has ${req.params.name.length} Characters`
+//     });
+// })
+
+// app.get('/playwithname/:name', (req, res) => {
+//     res.status(200).send({
+//         message: `Your name is ${req.params.name.length} Characters`
+//     });
+// })
 
 app.post('/registerUser', (req, res)=>{
     users.push(req.body)
