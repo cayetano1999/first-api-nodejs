@@ -1,16 +1,16 @@
-var express = require('express');
-var ProjectController = require('../controllers/projectController.js');
+// var express = require('express');
+// var ProjectController = require('../controllers/project/projectController.js');
 
-var router = express.Router();
+// var router = express.Router();
 
-//ProjectController
-let project = new ProjectController();
-router.get('/home', project.home);
-router.post('/saveProject', project.saveProject);
-router.get('/getproject/:id', project.getProyectById);
-router.get('/getAllProjects', project.getAllPprojects);
-router.put('/updateProject', project.updateProject);
-router.delete('/removeProject', project.removeProject);
+// //ProjectController
+// let project = new ProjectController();
+// router.get('/home', project.home);
+// router.post('/saveProject', project.saveProject);
+// router.get('/getproject/:id', project.getProyectById);
+// router.get('/getAllProjects', project.getAllPprojects);
+// router.put('/updateProject', project.updateProject);
+// router.delete('/removeProject', project.removeProject);
 
 
-module.exports = router;
+// module.exports = router;

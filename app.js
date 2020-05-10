@@ -2,25 +2,23 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
+var cors = require('cors')
 var app = express();
 //Archivos RUTA 
-  var project_routes = require('./API/core/router/router-config.js');  
+  var project_controller_routes = require('../backend/API/core/controllers/project/project.router.js');  
+  var workplace_controller_routes = require('../backend/API/core/controllers/workplace/workplace.router.js');
 
 //middleares 
-
 app.use(bodyParser.urlencoded({extend: false}));
 app.use(bodyParser.json()); //convierte todo lo que llegue por boddy a JSON
 
 //CORS
-
 //variables example
 
-var users = [
-]
-
 //RUTAS
-
-app.use('/api', project_routes);
+app.use('/api/project', project_controller_routes);
+app.use('/api/workplace', workplace_controller_routes);
+app.use(cors());
 
 // app.get('/test', (req, res)=>{
 //     res.status(200).send({

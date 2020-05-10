@@ -1,53 +1,72 @@
-var Project = require('../models/project.model.js');
+//importar los modelos de Mongoose
+var WorkPlace = require('../models/workplace.model.js');
 var Response = require('../viewmodels/apiResponse.js');
 var HttpCode = require('../../helpers/errors.code.js');
+class WorkPlaceSerice {
 
-class ProjectService {
-
-    async saveProject(projectModel) {
-        debugger;
-        var project = new Project();
+    async saveWorkPlace(workplaceModel) {
         var response = new Response();
-        project.name = projectModel.name;
-        project.category = projectModel.category;
-        project.technologies = projectModel.technologies;
-        project.year = projectModel.year;
-        project.createdby = projectModel.createdby;
-        project.description = projectModel.description;
-        await project.save().then((res) => {
-            if (res) {
-                response.message = 'Success'
-                response.code = HttpCode.OK;
+        var workplace = new WorkPlace();
+        workplace.company = workplaceModel.company,
+        workplace.duration = workplaceModel.duration,
+        workplace.departament = workplaceModel.departament,
+        workplace.boos = workplaceModel.boos,
+        workplace.ocupation = workplaceModel.ocupation,
+        workplace.salary = workplaceModel.salary;
 
+        await workplace.save().then(res=>{
+            if(res){
+                response.message = 'Success'
+                response.code = HttpCode.Created;
             }
-            else {
-                response.message = 'Can not created project'
+            else{
+                response.message = 'Can not add the workplace'
                 response.code = HttpCode.NoContent;
             }
-        }).catch(error => {
+
+        }).catch(error=>{
             response.message = 'Ha ocurrido un error';
             response.code = HttpCode.InternalServerError;
             response.errors.push({ code: response.code, message: JSON.stringify(error) });
         });
         return response;
-
     }
 
-    async getProject(projectId) {
+    async getAllWorks() {
         var response = new Response();
-        // var project = new Project();
-        await Project.findById(projectId).then(res => {
+        await WorkPlace.find({}).exec().then(res => {
+            if (response) {
+                response.message = 'Wroks Found';
+                response.value = res;
+                response.code = HttpCode.OK;
+            }
+            else {
+                response.message = 'Works not found'
+                response.code = HttpCode.NotFound;
+            }
+        }).catch(error => {
+            console.log('Ha ocurrido un error')
+            response.message = 'Ha ocurrido un error';
+            response.errors.push({ code: HttpCode.InternalServerError, message: JSON.stringify(error) });
+            response.code = response.errors[0].code;
+        })
+        return response;
+    }
+
+    async getWorkerPlace(workId) {
+        var response = new Response();
+        await WorkPlace.findById(workId).then(res => {
             console.log(res);
             if (res) {
-                response.message = 'Project has been found';
+                response.message = 'work has been found';
                 response.value = res;
                 response.code = HttpCode.OK;
 
             }
             else {
-                response.message = 'Project not found';
+                response.message = 'work not found';
                 response.code = HttpCode.NotFound;
-                response.errors.push({ code: response.code, message: 'Project not Found' });
+                response.errors.push({ code: response.code, message: 'work not Found' });
             }
         }).catch(error => {
             console.log('Ha ocurrido un error')
@@ -58,37 +77,15 @@ class ProjectService {
         return response;
     }
 
-    async getAllProjects() {
+    async updateWorkPlace(workModel){
         var response = new Response();
-        await Project.find({}).exec().then(res => {
-            if (response) {
-                response.message = 'Projects Found';
-                response.value = res;
-                response.code = HttpCode.OK;
-            }
-            else {
-                response.message = 'Projects not found'
-                response.code = HttpCode.NotFound;
-            }
-        }).catch(error => {
-            console.log('Ha ocurrido un error')
-            response.message = 'Ha ocurrido un error';
-            response.errors.push({ code: HttpCode.InternalServerError, message: JSON.stringify(error) });
-            response.code = response.errors[0].code;
-        })
-        return response;
-    }
-
-    async updateProject(projectModel){
-        var response = new Response();
-        console.log(projectModel);
-        await Project.findByIdAndUpdate(projectModel._id, projectModel).then(res=>{
+        await WorkPlace.findByIdAndUpdate(workModel._id, workModel).then(res=>{
             if(res){
-                response.message = 'Project has been updated successfully';
+                response.message = 'workplace has been updated successfully';
                 response.code = HttpCode.OK;
             }
             else{
-                response.message = 'Project not found to update';
+                response.message = 'workplace not found to update';
                 response.code = HttpCode.NotFound;
             }
         }).catch(error=>{
@@ -96,20 +93,19 @@ class ProjectService {
             response.errors.push({ code: HttpCode.InternalServerError, message: JSON.stringify(error) });
             response.code = response.errors[0].code;
         })
-
         return response;
     }
 
-    async removeProject(projectModel){
+    async removeWorkPlace(workModel){
         var response = new Response();
-        console.log(projectModel);
-        await Project.findByIdAndRemove(projectModel._id, projectModel).then(res=>{
+        console.log(workModel);
+        await WorkPlace.findByIdAndRemove(workModel._id, workModel).then(res=>{
             if(res){
-                response.message = 'Project has been removed successfully';
+                response.message = 'work has been removed successfully';
                 response.code = HttpCode.OK;
             }
             else{
-                response.message = 'Project not found to remove';
+                response.message = 'work not found to remove';
                 response.code = HttpCode.NotFound;
             }
         }).catch(error=>{
@@ -117,10 +113,8 @@ class ProjectService {
             response.errors.push({ code: HttpCode.InternalServerError, message: JSON.stringify(error) });
             response.code = response.errors[0].code;
         })
-
         return response;
     }
-
 }
 
-module.exports = ProjectService;
+module.exports = WorkPlaceSerice;

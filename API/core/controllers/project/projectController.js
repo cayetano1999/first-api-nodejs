@@ -1,8 +1,7 @@
 'use strict'
 
-var response = require('../viewmodels/apiResponse.js');
-var Project = require('../models/project.model.js');
-var ProjectService = require('../services/project.service.js');
+var response = require('../../viewmodels/apiResponse.js');
+var ProjectService = require('../../services/project.service.js');
 
 var projectServiceT = new ProjectService();
 
@@ -58,7 +57,6 @@ class ProjectController {
             return result;
         })
     }
-
 }
 
 module.exports = ProjectController;
