@@ -2,7 +2,6 @@ var Project = require('../models/project.model.js');
 var Response = require('../viewmodels/apiResponse.js');
 class ProjectService {
 
-
     async saveProject(projectModel) {
         debugger;
         var project = new Project();
@@ -75,6 +74,48 @@ class ProjectService {
             response.errors.push({ code: 500, message: JSON.stringify(error) });
             response.code = response.errors[0].code;
         })
+        return response;
+    }
+
+    async updateProject(projectModel){
+        var response = new Response();
+        console.log(projectModel);
+        await Project.findByIdAndUpdate(projectModel._id, projectModel).then(res=>{
+            if(res){
+                response.message = 'Project has been updated successfully';
+                response.code = 200;
+            }
+            else{
+                response.message = 'Project not found to update';
+                response.code = 404;
+            }
+        }).catch(error=>{
+            response.message = 'Ha ocurrido un error';
+            response.errors.push({ code: 500, message: JSON.stringify(error) });
+            response.code = response.errors[0].code;
+        })
+
+        return response;
+    }
+
+    async removeProject(projectModel){
+        var response = new Response();
+        console.log(projectModel);
+        await Project.findByIdAndRemove(projectModel._id, projectModel).then(res=>{
+            if(res){
+                response.message = 'Project has been removed successfully';
+                response.code = 200;
+            }
+            else{
+                response.message = 'Project not found to remove';
+                response.code = 404;
+            }
+        }).catch(error=>{
+            response.message = 'Ha ocurrido un error';
+            response.errors.push({ code: 500, message: JSON.stringify(error) });
+            response.code = response.errors[0].code;
+        })
+
         return response;
     }
 

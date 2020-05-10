@@ -43,6 +43,22 @@ class ProjectController {
         })
     }
 
+    updateProject(req, res){
+        var model = req.body;
+        projectServiceT.updateProject(model).then(response=>{
+            var result = res.status(response.code).send(response);
+            return result;
+        })
+    }
+
+    removeProject(req, res){
+        var model = req.body;
+        projectServiceT.removeProject(model).then(response=>{
+            var result = res.status(response.code).send(response);
+            return result;
+        })
+    }
+
 }
 
 module.exports = ProjectController;
