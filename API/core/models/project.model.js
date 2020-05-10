@@ -9,7 +9,6 @@ var projectSchema = Schema({
     durationTime: String,
     technologies: [String],
     year: Number,
-    createdBy: String,
     description: String
 })
 

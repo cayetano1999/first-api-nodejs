@@ -22,7 +22,7 @@ class ProjectController {
     saveProject(req, res) {
         var model = req.body;
         projectServiceT.saveProject(model).then(response=>{
-            var result = res.status(200).send({
+            var result = res.status(response.code).send({
                 response: response
             })
             return result;
@@ -30,9 +30,15 @@ class ProjectController {
     }
 
     getProyectById(req, res){
-        console.log(req.params.id);
         projectServiceT.getProject(req.params.id).then(response=>{
-            var result = res.status(200).send(response)
+            var result = res.status(response.code).send(response)
+            return result;
+        })
+    }
+
+    getAllPprojects(req, res){
+        projectServiceT.getAllProjects().then(response=>{
+            var result = res.status(response.code).send(response);
             return result;
         })
     }
